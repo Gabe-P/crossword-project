@@ -16,3 +16,7 @@ Thumbs.db
 # NYT crossword raw data (private)
 data/raw/
 data/private_text/
+
+nyt_cookies.json
+
+requirements-lock.txt
