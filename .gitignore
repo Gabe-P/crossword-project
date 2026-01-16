@@ -17,6 +17,9 @@ Thumbs.db
 data/raw/
 data/private_text/
 
+.env
 nyt_cookies.json
+nyt_state.json
 
 requirements-lock.txt
+
