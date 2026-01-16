@@ -65,6 +65,13 @@ def append_row(out_path: Path, row: dict) -> None:
 
     fieldnames = ['date', 'puzzle_id', 'seconds_spent_solving', 'solved', 'percent_filled']
 
+    existing_keys = load_existing_keys(out_path)
+    row_key = (row['date'], row['puzzle_id'])
+
+    if row_key in existing_keys:
+        print("Solve time already exists, skipping:", row_key)
+        return
+
     file_exists = out_path.exists()
 
     with open(out_path, 'a', newline='', encoding='utf-8') as f:
@@ -82,7 +89,8 @@ def load_existing_keys(path: Path) -> set[tuple[str, int]]:
     with open(path, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
-            keys.add((row['date']))
+            keys.add((row['date'], int(row['puzzle_id'])))
+    return keys
 
 def main(date_str: str) -> None:
     puzzle_id = load_puzzle_id(date_str)
