@@ -19,7 +19,9 @@ def get_answer_display_for_clue(clue_obj: dict, grid_cells: list[dict]) -> str:
     letters = []
     for cell_idx in clue_obj['cells']:
         cell = grid_cells[cell_idx]
-        letters.append(cell['answer'])
+        if not cell:
+            return None
+        letters.append(cell.get('answer','?'))
     return "".join(letters)
 
 def canonical_cell_token(cell_obj: dict) -> tuple[str,bool]:
@@ -63,6 +65,8 @@ def extract_clue_answer_rows(puzzle_json: dict, date_str: str) -> list[dict]:
     for clue_id, clue in enumerate(clues):
         clue_text = get_plain_clue_text(clue)
         answer_display = get_answer_display_for_clue(clue, cells)
+        if answer_display is None:
+            continue
         answer_canonical, has_rebus = get_answer_canonical_for_clue(clue, cells)
 
         row = {
